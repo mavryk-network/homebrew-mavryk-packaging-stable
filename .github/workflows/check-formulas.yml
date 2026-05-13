@@ -12,6 +12,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up local tap
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/mavryk-network"
+          ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mavryk-network/homebrew-mavryk-packaging"
+
       - name: Check formula syntax
         run: ruby -c ./Formula/*.rb
 

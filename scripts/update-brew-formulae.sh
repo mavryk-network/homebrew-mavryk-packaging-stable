@@ -17,6 +17,7 @@ then
             -exec sed -i "/catalina/d" {} \; \
             -exec sed -i "/monterey/d" {} \; \
             -exec sed -i "/arm64_sonoma/d" {} \; \
+            -exec sed -i "/arm64_sequoia/d" {} \; \
             -exec sed -i "/mojave/d" {} \;
     else
         echo "The argument does not look like a tag, which should have a form of 'v*-[0-9]*'"
