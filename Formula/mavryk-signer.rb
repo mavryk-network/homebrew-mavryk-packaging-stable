@@ -27,8 +27,6 @@ class MavrykSigner < Formula
   bottle do
     root_url "https://github.com/mavryk-network/mavryk-packaging/releases/download/#{MavrykSigner.version}/"
     sha256 cellar: :any, arm64_sonoma: "1fc3837720c67dff98b44c7b6c7be3096d119726a1f84e525adadc5ab3ec8add"
-    sha256 cellar: :any, arm64_sonoma: "28847b6a5d1b33ea5c2ccee6517e3b23f3c3566b1652f7083249e5208ec2b571"
-    sha256 cellar: :any, monterey: "d09f93834335b4f48c022a8e40433fb3abb376a1ac50458e4efbaef261cf1e1e"
   end
 
   def make_deps
