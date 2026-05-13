@@ -23,4 +23,4 @@ jobs:
       - name: Check formula source
         # All formulas share the same source URL, so it's fine to fetch sources
         # for only one formula
-        run: brew fetch --formula -s ./Formula/mavryk-client.rb
+        run: brew fetch --formula -s mavryk-network/mavryk-packaging/mavryk-client

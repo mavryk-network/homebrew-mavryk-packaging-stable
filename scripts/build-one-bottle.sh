@@ -13,10 +13,10 @@ if [ -z "$1" ] ; then
 fi
 
 # shellcheck disable=SC2046
-brew install --formula --build-bottle "./Formula/$1.rb"
+brew install --formula --build-bottle "mavryk-network/mavryk-packaging/$1"
 # Newer brew versions fail when checking for a rebuild version of non-core taps.
 # So for now we skip the check with '--no-rebuild'
-brew bottle --force-core-tap --no-rebuild "./Formula/$1.rb"
+brew bottle --force-core-tap --no-rebuild "mavryk-network/mavryk-packaging/$1"
 brew uninstall $1
 # https://github.com/Homebrew/brew/pull/4612#commitcomment-29995084
 mv "$1"*.bottle.* "$(echo "$1"*.bottle.* | sed s/--/-/)"

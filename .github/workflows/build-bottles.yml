@@ -51,7 +51,7 @@ jobs:
         # We don't build the bottle for it because it is never updated over time.
       - name: Build mavryk-sapling-params
         if: steps.check-built.outcome == 'failure'
-        run: brew install --formula ./Formula/mavryk-sapling-params.rb
+        run: brew install --formula mavryk-network/mavryk-packaging/mavryk-sapling-params
 
       - name: Build the bottle
         if: steps.check-built.outcome == 'failure'
