@@ -28,6 +28,7 @@ class MavrykSmartRollupNode < Formula
 
   bottle do
     root_url "https://github.com/mavryk-network/mavryk-packaging/releases/download/#{MavrykSmartRollupNode.version}/"
+    sha256 cellar: :any, arm64_sonoma: "66d8293569396ed169404c3ef4eeba538b95845d2db6ac9c43d0d8def5f935d6"
     sha256 cellar: :any, arm64_sonoma: "9aa370cead9f66be6e860b6213d2cb77b5f4ec6dfc587fc51ec246f810ee1732"
     sha256 cellar: :any, monterey: "0419e3c9d463e3d782d6f6aec028f73a14efc42c8a1e6896b2e14e15c8615c2f"
   end
