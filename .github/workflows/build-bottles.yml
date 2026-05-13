@@ -15,10 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [
-          { id: macos-14, name: "arm64_sonoma" },
-          { id: macos-15, name: "arm64_sequoia" }
-        ]
+        os: [ { id: macos-14, name: "arm64_sonoma" } ]
         # we don't bottle meta-formulas that contain only services
         formula: [mavryk-smart-rollup-wasm-debugger, mavryk-smart-rollup-node, mavryk-dac-client, mavryk-dac-node, mavryk-dal-node, mavryk-signer, mavryk-codec, mavryk-client, mavryk-admin-client, mavryk-node, mavryk-accuser-PtBoreas, mavryk-baker-PtBoreas]
     steps:
@@ -62,7 +59,7 @@ jobs:
         if: steps.check-built.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
-          name: homebrew-bottles-${{ matrix.os }}
+          name: homebrew-bottles-${{ matrix.formula }}-${{ matrix.os.name }}
           path: '*.bottle.*'
 
       - name: Attach the bottle to the release
@@ -99,14 +96,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: gh release download "${{ github.ref_name }}" -p "*.arm64_sonoma.bottle.tar.gz" -D "./arm64_sonoma"
 
-      - name: Download arm64_sequoia bottles from the release
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: gh release download "${{ github.ref_name }}" -p "*.arm64_sequoia.bottle.tar.gz" -D "./arm64_sequoia"
-
       - name: Add bottle hashes to formulae
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          ./scripts/sync-bottle-hashes.sh "${{ github.ref_name }}" "arm64_sonoma"
-          ./scripts/sync-bottle-hashes.sh "${{ github.ref_name }}" "arm64_sequoia"
+        run: ./scripts/sync-bottle-hashes.sh "${{ github.ref_name }}" "arm64_sonoma"
