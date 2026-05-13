@@ -3,7 +3,7 @@
 
 class MavrykNodeGhostnet < Formula
   url "file:///dev/null"
-  version "v20.2-rc3"
+  version "v20.4-1"
 
   depends_on "mavryk-node"
 

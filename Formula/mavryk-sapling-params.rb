@@ -6,7 +6,7 @@ class MavrykSaplingParams < Formula
   
   url "https://gitlab.com/mavryk-network/opam-repository.git", :tag => "v9.4", :shallow => false
 
-  version "v20.2-rc3"
+  version "v20.4-1"
 
   desc "Sapling params required at runtime by the Mavryk binaries"
 

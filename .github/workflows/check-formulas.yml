@@ -12,10 +12,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up local tap
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/mavryk-network"
+          ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mavryk-network/homebrew-mavryk-packaging"
+
       - name: Check formula syntax
         run: ruby -c ./Formula/*.rb
 
       - name: Check formula source
         # All formulas share the same source URL, so it's fine to fetch sources
         # for only one formula
-        run: brew fetch --formula -s ./Formula/mavryk-client.rb
+        run: brew fetch --formula -s mavryk-network/mavryk-packaging/mavryk-client

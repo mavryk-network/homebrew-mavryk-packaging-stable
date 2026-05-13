@@ -15,12 +15,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ { id: macos-12, name: "monterey" } ]
+        os: [
+          { id: macos-14, name: "arm64_sonoma" },
+          { id: macos-15, name: "arm64_sequoia" }
+        ]
         # we don't bottle meta-formulas that contain only services
         formula: [mavryk-smart-rollup-wasm-debugger, mavryk-smart-rollup-node, mavryk-dac-client, mavryk-dac-node, mavryk-dal-node, mavryk-signer, mavryk-codec, mavryk-client, mavryk-admin-client, mavryk-node, mavryk-accuser-PtBoreas, mavryk-baker-PtBoreas]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up local tap
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/mavryk-network"
+          ln -sf "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/mavryk-network/homebrew-mavryk-packaging"
 
       - name: Install GNU sed
         run: |
@@ -43,7 +51,7 @@ jobs:
         # We don't build the bottle for it because it is never updated over time.
       - name: Build mavryk-sapling-params
         if: steps.check-built.outcome == 'failure'
-        run: brew install --formula ./Formula/mavryk-sapling-params.rb
+        run: brew install --formula mavryk-network/mavryk-packaging/mavryk-sapling-params
 
       - name: Build the bottle
         if: steps.check-built.outcome == 'failure'
@@ -64,7 +72,7 @@ jobs:
         run: gh release upload "${{ env.tag }}" *.bottle.*
 
   sync-hashes:
-    runs-on: macos-12
+    runs-on: macos-14
     needs: build-bottles
     steps:
       - name: Checkout
@@ -86,12 +94,19 @@ jobs:
 
        # It's possible we have had to rerun the building workflow, skipping some jobs and
        # erasing the previously built bottles, so we use the release to download them all
-      - name: Download Monterey bottles from the release
+      - name: Download arm64_sonoma bottles from the release
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: gh release download "${{ github.ref_name }}" -p "*.monterey.bottle.tar.gz" -D "./Monterey"
+        run: gh release download "${{ github.ref_name }}" -p "*.arm64_sonoma.bottle.tar.gz" -D "./arm64_sonoma"
+
+      - name: Download arm64_sequoia bottles from the release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: gh release download "${{ github.ref_name }}" -p "*.arm64_sequoia.bottle.tar.gz" -D "./arm64_sequoia"
 
       - name: Add bottle hashes to formulae
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: ./scripts/sync-bottle-hashes.sh "${{ github.ref_name }}" "Monterey"
+        run: |
+          ./scripts/sync-bottle-hashes.sh "${{ github.ref_name }}" "arm64_sonoma"
+          ./scripts/sync-bottle-hashes.sh "${{ github.ref_name }}" "arm64_sequoia"
