@@ -13,10 +13,20 @@ if [ -z "$1" ] ; then
 fi
 
 # shellcheck disable=SC2046
+# Homebrew lowercases formula names in bottle filenames
+lower_name="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
 brew install --formula --build-bottle "mavryk-network/mavryk-packaging/$1"
 # Newer brew versions fail when checking for a rebuild version of non-core taps.
 # So for now we skip the check with '--no-rebuild'
 brew bottle --force-core-tap --no-rebuild "mavryk-network/mavryk-packaging/$1"
-brew uninstall $1
+brew uninstall "$1"
 # https://github.com/Homebrew/brew/pull/4612#commitcomment-29995084
-mv "$1"*.bottle.* "$(echo "$1"*.bottle.* | sed s/--/-/)"
+# Rename double-dash to single-dash if needed, using lowercased name for glob
+for f in "$lower_name"*.bottle.*; do
+  newname="$(echo "$f" | sed 's/--/-/')"
+  # Rename to use original (mixed-case) formula name
+  newname="$(echo "$newname" | sed "s/^$lower_name/$1/")"
+  if [ "$f" != "$newname" ]; then
+    mv "$f" "$newname"
+  fi
+done
