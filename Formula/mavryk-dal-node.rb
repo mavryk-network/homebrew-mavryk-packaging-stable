@@ -26,6 +26,7 @@ class MavrykDalNode < Formula
 
   bottle do
     root_url "https://github.com/mavryk-network/mavryk-packaging/releases/download/#{MavrykDalNode.version}/"
+    sha256 cellar: :any, arm64_sonoma: "3838f768c724f874d7a6c0868bd7f2a663f82b9cad6b1884d550f08d9585e124"
     sha256 cellar: :any, arm64_sonoma: "c4916b1430d7c512a22eaad976a31313f399e79466342faaf0e3b3438f115441"
     sha256 cellar: :any, monterey: "07d1ea35af52627449bfa7f7f1ccf49bd0bbbe7e90e01c4dc24af40588100196"
   end

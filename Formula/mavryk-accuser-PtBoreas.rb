@@ -26,6 +26,7 @@ class MavrykAccuserPtboreas < Formula
 
   bottle do
     root_url "https://github.com/mavryk-network/mavryk-packaging/releases/download/#{MavrykAccuserPtboreas.version}/"
+    sha256 cellar: :any, arm64_sonoma: "41849fc887aace84b3d7a35272f041e8697ed0b94efa034678b6d72760e373e1"
     sha256 cellar: :any, arm64_sonoma: "398df556f585af37917d5a581f0b234f46128eea153ccb479d52c17a752f0da0"
     sha256 cellar: :any, monterey: "7b614c2748b4e74c7445f2885e5038521a0ba7730b2edab8f8e657eab5ceaac1"
   end
