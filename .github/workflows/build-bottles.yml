@@ -15,7 +15,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ { id: macos-12, name: "monterey" } ]
+        os: [
+          { id: macos-14, name: "arm64_sonoma" },
+          { id: macos-15, name: "arm64_sequoia" }
+        ]
         # we don't bottle meta-formulas that contain only services
         formula: [mavryk-smart-rollup-wasm-debugger, mavryk-smart-rollup-node, mavryk-dac-client, mavryk-dac-node, mavryk-dal-node, mavryk-signer, mavryk-codec, mavryk-client, mavryk-admin-client, mavryk-node, mavryk-accuser-PtBoreas, mavryk-baker-PtBoreas]
     steps:
